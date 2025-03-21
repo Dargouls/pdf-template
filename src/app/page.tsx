@@ -1,9 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function Home() {
+	const [loading, setLoading] = useState(false);
+
 	const generate = async () => {
+		setLoading(true);
 		const html = `		
 				<div>
 					<span>
@@ -23,8 +27,10 @@ export default function Home() {
 			const pdfUrl = URL.createObjectURL(pdfBlob);
 			// Abre o PDF em uma nova aba
 			window.open(pdfUrl, '_blank');
+			setLoading(false);
 		} catch (error) {
 			console.error('Erro ao abrir o PDF:', error);
+			setLoading(false);
 		}
 	};
 
@@ -32,7 +38,14 @@ export default function Home() {
 		<div className='grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20'>
 			<main className='row-start-2 flex flex-col items-center gap-[32px] sm:items-start'>
 				<Image className='dark:invert' src='/next.svg' alt='Next.js logo' width={180} height={38} priority />
-				<button onClick={() => generate()}>GENERATE</button>
+
+				{loading && <h1 className='text-lg'>CARREGANDO</h1>}
+				<button
+					className='cursor-pointer rounded bg-black/[.05] px-4 py-2 font-[family-name:var(--font-geist-mono)] font-semibold dark:bg-white/[.06]'
+					onClick={() => generate()}
+				>
+					GENERATE
+				</button>
 				<ol className='list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm/6 sm:text-left'>
 					<li className='mb-2 tracking-[-.01em]'>
 						Get started by editing{' '}
