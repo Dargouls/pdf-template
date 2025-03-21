@@ -8,28 +8,41 @@ export default function Home() {
 
 	const generate = async () => {
 		setLoading(true);
-		const html = `		
-				<div>
-					<span>
-						Olá PDF
-					</span>
-				</div>
+		const html = `
+			<html>
+				<head>
+					<style>
+						body { font-family: Arial, sans-serif; margin: 50px; }
+						h1 { color: #333; }
+					</style>
+				</head>
+				<body>
+					<h1>Olá PDF!</h1>
+					<p>Este é um teste de geração de PDF com margens e um texto maior.</p>
+				</body>
+			</html>
 		`;
 
 		try {
-			const response = await fetch('/api/generate-pdf', { method: 'POST', body: JSON.stringify({ html }) });
+			const response = await fetch('http://localhost:3001/generate-pdf', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ html }),
+			});
+
 			if (!response.ok) {
 				throw new Error('Erro ao gerar o PDF');
 			}
-			// Converte a resposta para blob
-			const pdfBlob = await response.blob();
-			// Cria uma URL para o blob
+
+			const arrayBuffer = await response.arrayBuffer();
+			const pdfBlob = new Blob([arrayBuffer], { type: 'application/pdf' });
 			const pdfUrl = URL.createObjectURL(pdfBlob);
-			// Abre o PDF em uma nova aba
 			window.open(pdfUrl, '_blank');
 			setLoading(false);
 		} catch (error) {
-			console.error('Erro ao abrir o PDF:', error);
+			console.error('Erro ao gerar/abrir o PDF:', error);
 			setLoading(false);
 		}
 	};

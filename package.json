@@ -4,15 +4,17 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
-		"build": "npx playwright install && next build",
+		"build": "next build",
 		"start": "next start",
-		"lint": "next lint",
-		"postinstall": "playwright install --with-deps"
+		"lint": "next lint"
 	},
 	"dependencies": {
+		"@sparticuz/chromium-min": "^133.0.0",
+		"axios": "^1.8.4",
 		"next": "15.2.3",
 		"playwright": "^1.51.1",
 		"playwright-chromium": "^1.51.1",
+		"playwright-core": "^1.51.1",
 		"prettier": "^3.5.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
 		"react": "^19.0.0",
