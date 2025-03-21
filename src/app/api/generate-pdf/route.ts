@@ -23,6 +23,8 @@ export async function POST(request: Request) {
 				'Content-Disposition': 'inline; filename=laudo-medico.pdf',
 			},
 		});
+
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
 		console.error('Erro na geração do PDF:', error);
 		return NextResponse.json({ message: `Erro interno no servidor: ${error.message}` }, { status: 500 });
